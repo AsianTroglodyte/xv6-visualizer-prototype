@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1092" height="368" viewBox="0 0 1092 368">
+<rect width="100%" height="100%" fill="#f7f7f3"/>
+<text x="20" y="30" font-family="monospace" font-size="24" fill="#111">xv6 physical memory line snapshot 122</text>
+<text x="20" y="54" font-family="monospace" font-size="14" fill="#444">pages sorted by physical address; each page is a compact table row</text>
+<rect x="20" y="64" width="1052" height="12" rx="4" fill="#d9dde1"/>
+<text x="20" y="62" font-family="monospace" font-size="12" fill="#555">kernel blanket / unreported memory</text>
+<rect x="20" y="96" width="72" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="28" y="110" font-family="monospace" font-size="11" fill="#222">PID</text>
+<rect x="92" y="96" width="112" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="100" y="110" font-family="monospace" font-size="11" fill="#222">Name</text>
+<rect x="204" y="96" width="96" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="212" y="110" font-family="monospace" font-size="11" fill="#222">Role</text>
+<rect x="300" y="96" width="120" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="308" y="110" font-family="monospace" font-size="11" fill="#222">VA</text>
+<rect x="420" y="96" width="120" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="428" y="110" font-family="monospace" font-size="11" fill="#222">PA</text>
+<rect x="20" y="116" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="116" x2="92" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="116" x2="204" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="116" x2="300" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="116" x2="420" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="129" font-family="monospace" font-size="10" fill="#111">7</text>
+<text x="100" y="129" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="212" y="129" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="308" y="129" font-family="monospace" font-size="10" fill="#111">0x0</text>
+<text x="428" y="129" font-family="monospace" font-size="10" fill="#111">0x87eee000</text>
+<rect x="20" y="134" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="134" x2="92" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="134" x2="204" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="134" x2="300" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="134" x2="420" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="147" font-family="monospace" font-size="10" fill="#111">7</text>
+<text x="100" y="147" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="212" y="147" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="308" y="147" font-family="monospace" font-size="10" fill="#111">0x1000</text>
+<text x="428" y="147" font-family="monospace" font-size="10" fill="#111">0x87ef1000</text>
+<rect x="20" y="152" width="520" height="18" fill="#eef7ee" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="152" x2="92" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="152" x2="204" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="152" x2="300" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="152" x2="420" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="165" font-family="monospace" font-size="10" fill="#111">7</text>
+<text x="100" y="165" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="212" y="165" font-family="monospace" font-size="10" fill="#111">heap</text>
+<text x="308" y="165" font-family="monospace" font-size="10" fill="#111">0x2000</text>
+<text x="428" y="165" font-family="monospace" font-size="10" fill="#111">0x87ef2000</text>
+<rect x="20" y="170" width="520" height="18" fill="#fff0e6" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="170" x2="92" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="170" x2="204" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="170" x2="300" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="170" x2="420" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="183" font-family="monospace" font-size="10" fill="#111">7</text>
+<text x="100" y="183" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="212" y="183" font-family="monospace" font-size="10" fill="#111">stack</text>
+<text x="308" y="183" font-family="monospace" font-size="10" fill="#111">0x4000</text>
+<text x="428" y="183" font-family="monospace" font-size="10" fill="#111">0x87ef4000</text>
+<rect x="20" y="188" width="520" height="18" fill="#fff0e6" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="188" x2="92" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="188" x2="204" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="188" x2="300" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="188" x2="420" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="201" font-family="monospace" font-size="10" fill="#111">4</text>
+<text x="100" y="201" font-family="monospace" font-size="10" fill="#111">memviz</text>
+<text x="212" y="201" font-family="monospace" font-size="10" fill="#111">stack</text>
+<text x="308" y="201" font-family="monospace" font-size="10" fill="#111">0x3000</text>
+<text x="428" y="201" font-family="monospace" font-size="10" fill="#111">0x87efe000</text>
+<rect x="20" y="206" width="520" height="18" fill="#eef7ee" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="206" x2="92" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="206" x2="204" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="206" x2="300" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="206" x2="420" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="219" font-family="monospace" font-size="10" fill="#111">4</text>
+<text x="100" y="219" font-family="monospace" font-size="10" fill="#111">memviz</text>
+<text x="212" y="219" font-family="monospace" font-size="10" fill="#111">heap</text>
+<text x="308" y="219" font-family="monospace" font-size="10" fill="#111">0x1000</text>
+<text x="428" y="219" font-family="monospace" font-size="10" fill="#111">0x87f03000</text>
+<rect x="20" y="224" width="520" height="18" fill="#eef7ee" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="224" x2="92" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="224" x2="204" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="224" x2="300" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="224" x2="420" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="237" font-family="monospace" font-size="10" fill="#111">6</text>
+<text x="100" y="237" font-family="monospace" font-size="10" fill="#111">vizwork</text>
+<text x="212" y="237" font-family="monospace" font-size="10" fill="#111">heap</text>
+<text x="308" y="237" font-family="monospace" font-size="10" fill="#111">0x1000</text>
+<text x="428" y="237" font-family="monospace" font-size="10" fill="#111">0x87f05000</text>
+<rect x="20" y="242" width="520" height="18" fill="#fff0e6" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="242" x2="92" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="242" x2="204" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="242" x2="300" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="242" x2="420" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="255" font-family="monospace" font-size="10" fill="#111">6</text>
+<text x="100" y="255" font-family="monospace" font-size="10" fill="#111">vizwork</text>
+<text x="212" y="255" font-family="monospace" font-size="10" fill="#111">stack</text>
+<text x="308" y="255" font-family="monospace" font-size="10" fill="#111">0x3000</text>
+<text x="428" y="255" font-family="monospace" font-size="10" fill="#111">0x87f07000</text>
+<rect x="20" y="260" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="260" x2="92" y2="278" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="260" x2="204" y2="278" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="260" x2="300" y2="278" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="260" x2="420" y2="278" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="273" font-family="monospace" font-size="10" fill="#111">16</text>
+<text x="100" y="273" font-family="monospace" font-size="10" fill="#111">sleepy</text>
+<text x="212" y="273" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="308" y="273" font-family="monospace" font-size="10" fill="#111">0x0</text>
+<text x="428" y="273" font-family="monospace" font-size="10" fill="#111">0x87f0c000</text>
+<rect x="20" y="278" width="520" height="18" fill="#fff0e6" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="278" x2="92" y2="296" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="278" x2="204" y2="296" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="278" x2="300" y2="296" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="278" x2="420" y2="296" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="291" font-family="monospace" font-size="10" fill="#111">16</text>
+<text x="100" y="291" font-family="monospace" font-size="10" fill="#111">sleepy</text>
+<text x="212" y="291" font-family="monospace" font-size="10" fill="#111">stack</text>
+<text x="308" y="291" font-family="monospace" font-size="10" fill="#111">0x3000</text>
+<text x="428" y="291" font-family="monospace" font-size="10" fill="#111">0x87f18000</text>
+<rect x="20" y="296" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="296" x2="92" y2="314" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="296" x2="204" y2="314" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="296" x2="300" y2="314" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="296" x2="420" y2="314" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="309" font-family="monospace" font-size="10" fill="#111">6</text>
+<text x="100" y="309" font-family="monospace" font-size="10" fill="#111">vizwork</text>
+<text x="212" y="309" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="308" y="309" font-family="monospace" font-size="10" fill="#111">0x0</text>
+<text x="428" y="309" font-family="monospace" font-size="10" fill="#111">0x87f2d000</text>
+<rect x="20" y="314" width="520" height="18" fill="#eef7ee" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="92" y1="314" x2="92" y2="332" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="204" y1="314" x2="204" y2="332" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="300" y1="314" x2="300" y2="332" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="420" y1="314" x2="420" y2="332" stroke="#d6d6cf" stroke-width="1"/>
+<text x="28" y="327" font-family="monospace" font-size="10" fill="#111">16</text>
+<text x="100" y="327" font-family="monospace" font-size="10" fill="#111">sleepy</text>
+<text x="212" y="327" font-family="monospace" font-size="10" fill="#111">heap</text>
+<text x="308" y="327" font-family="monospace" font-size="10" fill="#111">0x1000</text>
+<text x="428" y="327" font-family="monospace" font-size="10" fill="#111">0x87f32000</text>
+<rect x="552" y="96" width="72" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="560" y="110" font-family="monospace" font-size="11" fill="#222">PID</text>
+<rect x="624" y="96" width="112" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="632" y="110" font-family="monospace" font-size="11" fill="#222">Name</text>
+<rect x="736" y="96" width="96" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="744" y="110" font-family="monospace" font-size="11" fill="#222">Role</text>
+<rect x="832" y="96" width="120" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="840" y="110" font-family="monospace" font-size="11" fill="#222">VA</text>
+<rect x="952" y="96" width="120" height="20" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>
+<text x="960" y="110" font-family="monospace" font-size="11" fill="#222">PA</text>
+<rect x="552" y="116" width="520" height="18" fill="#fff0e6" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="116" x2="624" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="116" x2="736" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="116" x2="832" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="116" x2="952" y2="134" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="129" font-family="monospace" font-size="10" fill="#111">2</text>
+<text x="632" y="129" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="744" y="129" font-family="monospace" font-size="10" fill="#111">stack</text>
+<text x="840" y="129" font-family="monospace" font-size="10" fill="#111">0x4000</text>
+<text x="960" y="129" font-family="monospace" font-size="10" fill="#111">0x87f38000</text>
+<rect x="552" y="134" width="520" height="18" fill="#eef7ee" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="134" x2="624" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="134" x2="736" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="134" x2="832" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="134" x2="952" y2="152" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="147" font-family="monospace" font-size="10" fill="#111">2</text>
+<text x="632" y="147" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="744" y="147" font-family="monospace" font-size="10" fill="#111">heap</text>
+<text x="840" y="147" font-family="monospace" font-size="10" fill="#111">0x2000</text>
+<text x="960" y="147" font-family="monospace" font-size="10" fill="#111">0x87f3a000</text>
+<rect x="552" y="152" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="152" x2="624" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="152" x2="736" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="152" x2="832" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="152" x2="952" y2="170" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="165" font-family="monospace" font-size="10" fill="#111">2</text>
+<text x="632" y="165" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="744" y="165" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="840" y="165" font-family="monospace" font-size="10" fill="#111">0x1000</text>
+<text x="960" y="165" font-family="monospace" font-size="10" fill="#111">0x87f3b000</text>
+<rect x="552" y="170" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="170" x2="624" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="170" x2="736" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="170" x2="832" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="170" x2="952" y2="188" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="183" font-family="monospace" font-size="10" fill="#111">2</text>
+<text x="632" y="183" font-family="monospace" font-size="10" fill="#111">sh</text>
+<text x="744" y="183" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="840" y="183" font-family="monospace" font-size="10" fill="#111">0x0</text>
+<text x="960" y="183" font-family="monospace" font-size="10" fill="#111">0x87f3e000</text>
+<rect x="552" y="188" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="188" x2="624" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="188" x2="736" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="188" x2="832" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="188" x2="952" y2="206" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="201" font-family="monospace" font-size="10" fill="#111">4</text>
+<text x="632" y="201" font-family="monospace" font-size="10" fill="#111">memviz</text>
+<text x="744" y="201" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="840" y="201" font-family="monospace" font-size="10" fill="#111">0x0</text>
+<text x="960" y="201" font-family="monospace" font-size="10" fill="#111">0x87f46000</text>
+<rect x="552" y="206" width="520" height="18" fill="#fff0e6" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="206" x2="624" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="206" x2="736" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="206" x2="832" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="206" x2="952" y2="224" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="219" font-family="monospace" font-size="10" fill="#111">1</text>
+<text x="632" y="219" font-family="monospace" font-size="10" fill="#111">init</text>
+<text x="744" y="219" font-family="monospace" font-size="10" fill="#111">stack</text>
+<text x="840" y="219" font-family="monospace" font-size="10" fill="#111">0x3000</text>
+<text x="960" y="219" font-family="monospace" font-size="10" fill="#111">0x87f4a000</text>
+<rect x="552" y="224" width="520" height="18" fill="#eef7ee" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="224" x2="624" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="224" x2="736" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="224" x2="832" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="224" x2="952" y2="242" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="237" font-family="monospace" font-size="10" fill="#111">1</text>
+<text x="632" y="237" font-family="monospace" font-size="10" fill="#111">init</text>
+<text x="744" y="237" font-family="monospace" font-size="10" fill="#111">heap</text>
+<text x="840" y="237" font-family="monospace" font-size="10" fill="#111">0x1000</text>
+<text x="960" y="237" font-family="monospace" font-size="10" fill="#111">0x87f4c000</text>
+<rect x="552" y="242" width="520" height="18" fill="#eef4ff" stroke="#c8c8c0" stroke-width="1"/>
+<line x1="624" y1="242" x2="624" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="736" y1="242" x2="736" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="832" y1="242" x2="832" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<line x1="952" y1="242" x2="952" y2="260" stroke="#d6d6cf" stroke-width="1"/>
+<text x="560" y="255" font-family="monospace" font-size="10" fill="#111">1</text>
+<text x="632" y="255" font-family="monospace" font-size="10" fill="#111">init</text>
+<text x="744" y="255" font-family="monospace" font-size="10" fill="#111">code</text>
+<text x="840" y="255" font-family="monospace" font-size="10" fill="#111">0x0</text>
+<text x="960" y="255" font-family="monospace" font-size="10" fill="#111">0x87f4f000</text>
+</svg>

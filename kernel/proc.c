@@ -26,6 +26,27 @@ extern char trampoline[]; // trampoline.S
 // must be acquired before any p->lock.
 struct spinlock wait_lock;
 
+extern pte_t *walk(pagetable_t, uint64, int);
+
+static char *
+procstate_name(enum procstate state)
+{
+  static char *states[] = {
+    // clang-format off
+    [UNUSED]   "unused",
+    [USED]     "used",
+    [SLEEPING] "sleep",
+    [RUNNABLE]  "runnable",
+    [RUNNING]   "running",
+    [ZOMBIE]    "zombie",
+    // clang-format on
+  };
+
+  if (state >= 0 && state < NELEM(states) && states[state])
+    return states[state];
+  return "???";
+}
+
 // Allocate a page for each process's kernel stack.
 // Map it high in memory, followed by an invalid
 // guard page.
@@ -665,28 +686,47 @@ either_copyin(void *dst, int user_src, uint64 src, uint64 len)
 void
 procdump(void)
 {
-  static char *states[] = {
-    // clang-format off
-    [UNUSED]    "unused",
-    [USED]      "used",
-    [SLEEPING]  "sleep ",
-    [RUNNABLE]  "runble",
-    [RUNNING]   "run   ",
-    [ZOMBIE]    "zombie"
-    // clang-format on
-  };
   struct proc *p;
-  char *state;
 
   printk("\n");
   for (p = proc; p < &proc[NPROC]; p++) {
     if (p->state == UNUSED)
       continue;
-    if (p->state >= 0 && p->state < NELEM(states) && states[p->state])
-      state = states[p->state];
-    else
-      state = "???";
-    printk("%d %s %s", p->pid, state, p->name);
+    printk("%d %s %s", p->pid, procstate_name(p->state), p->name);
     printk("\n");
   }
+}
+
+uint64
+sys_vizsnap(void)
+{
+  static uint64 seq;
+  struct proc *p;
+
+  seq++;
+  printk("BEGIN VIZSNAP %lu\n", seq);
+  for (p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+    if (p->state != UNUSED && p->pagetable && p->trapframe) {
+      uint64 sp = p->trapframe->sp;
+      uint64 pages = 0;
+
+      printk("PROC pid=%d state=%s name=%s sz=%lu sp=%p\n", p->pid,
+             procstate_name(p->state), p->name, p->sz, (void *)sp);
+      for (uint64 va = 0; va < p->sz; va += PGSIZE) {
+        pte_t *pte = walk(p->pagetable, va, 0);
+        if (pte == 0)
+          continue;
+        if ((*pte & PTE_V) == 0 || (*pte & PTE_U) == 0)
+          continue;
+        printk("PAGE pid=%d va=%p pa=%p flags=%lx\n", p->pid, (void *)va,
+               (void *)PTE2PA(*pte), PTE_FLAGS(*pte));
+        pages++;
+      }
+      printk("ENDPROC pid=%d pages=%lu\n", p->pid, pages);
+    }
+    release(&p->lock);
+  }
+  printk("END VIZSNAP %lu\n", seq);
+  return 0;
 }

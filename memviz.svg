@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="346" viewBox="0 0 1480 346">
+<rect width="100%" height="100%" fill="#f7f7f3"/>
+<text x="20" y="30" font-family="monospace" font-size="24" fill="#111">xv6 page ownership snapshot 97</text>
+<text x="20" y="54" font-family="monospace" font-size="14" fill="#444">user pages grouped by process; role inferred from xv6 address layout</text>
+<rect x="20" y="64" width="1440" height="12" rx="4" fill="#d9dde1"/>
+<text x="20" y="62" font-family="monospace" font-size="12" fill="#555">kernel blanket</text>
+<rect x="20" y="84" width="224" height="54" rx="8" fill="#a37487" stroke="#333" stroke-width="1.2"/>
+<text x="32" y="104" font-family="monospace" font-size="16" fill="#111">PID 1 init</text>
+<text x="32" y="122" font-family="monospace" font-size="12" fill="#111">sleep sz=16384</text>
+<rect x="20" y="150" width="224" height="26" rx="6" fill="#eef4ff" stroke="#a37487" stroke-width="1.2"/>
+<text x="30" y="167" font-family="monospace" font-size="12" fill="#111">code va=0x0</text>
+<rect x="20" y="182" width="224" height="26" rx="6" fill="#eef7ee" stroke="#a37487" stroke-width="1.2"/>
+<text x="30" y="199" font-family="monospace" font-size="12" fill="#111">heap va=0x1000</text>
+<rect x="20" y="214" width="224" height="26" rx="6" fill="#fff0e6" stroke="#a37487" stroke-width="1.2"/>
+<text x="30" y="231" font-family="monospace" font-size="12" fill="#111">stack va=0x3000</text>
+<rect x="260" y="84" width="224" height="54" rx="8" fill="#beafdc" stroke="#333" stroke-width="1.2"/>
+<text x="272" y="104" font-family="monospace" font-size="16" fill="#111">PID 4 memviz</text>
+<text x="272" y="122" font-family="monospace" font-size="12" fill="#111">running sz=16384</text>
+<rect x="260" y="150" width="224" height="26" rx="6" fill="#eef4ff" stroke="#896ec1" stroke-width="1.2"/>
+<text x="270" y="167" font-family="monospace" font-size="12" fill="#111">code va=0x0</text>
+<rect x="260" y="182" width="224" height="26" rx="6" fill="#eef7ee" stroke="#896ec1" stroke-width="1.2"/>
+<text x="270" y="199" font-family="monospace" font-size="12" fill="#111">heap va=0x1000</text>
+<rect x="260" y="214" width="224" height="26" rx="6" fill="#fff0e6" stroke="#896ec1" stroke-width="1.2"/>
+<text x="270" y="231" font-family="monospace" font-size="12" fill="#111">stack va=0x3000</text>
+<rect x="500" y="84" width="224" height="54" rx="8" fill="#b9d8c8" stroke="#333" stroke-width="1.2"/>
+<text x="512" y="104" font-family="monospace" font-size="16" fill="#111">PID 2 sh</text>
+<text x="512" y="122" font-family="monospace" font-size="12" fill="#111">sleep sz=20480</text>
+<rect x="500" y="150" width="224" height="26" rx="6" fill="#eef4ff" stroke="#80b99c" stroke-width="1.2"/>
+<text x="510" y="167" font-family="monospace" font-size="12" fill="#111">code va=0x0</text>
+<rect x="500" y="182" width="224" height="26" rx="6" fill="#eef4ff" stroke="#80b99c" stroke-width="1.2"/>
+<text x="510" y="199" font-family="monospace" font-size="12" fill="#111">code va=0x1000</text>
+<rect x="500" y="214" width="224" height="26" rx="6" fill="#eef7ee" stroke="#80b99c" stroke-width="1.2"/>
+<text x="510" y="231" font-family="monospace" font-size="12" fill="#111">heap va=0x2000</text>
+<rect x="500" y="246" width="224" height="26" rx="6" fill="#fff0e6" stroke="#80b99c" stroke-width="1.2"/>
+<text x="510" y="263" font-family="monospace" font-size="12" fill="#111">stack va=0x4000</text>
+<rect x="740" y="84" width="224" height="54" rx="8" fill="#c7c6d1" stroke="#333" stroke-width="1.2"/>
+<text x="752" y="104" font-family="monospace" font-size="16" fill="#111">PID 7 sh</text>
+<text x="752" y="122" font-family="monospace" font-size="12" fill="#111">sleep sz=20480</text>
+<rect x="740" y="150" width="224" height="26" rx="6" fill="#eef4ff" stroke="#9a99ad" stroke-width="1.2"/>
+<text x="750" y="167" font-family="monospace" font-size="12" fill="#111">code va=0x0</text>
+<rect x="740" y="182" width="224" height="26" rx="6" fill="#eef4ff" stroke="#9a99ad" stroke-width="1.2"/>
+<text x="750" y="199" font-family="monospace" font-size="12" fill="#111">code va=0x1000</text>
+<rect x="740" y="214" width="224" height="26" rx="6" fill="#eef7ee" stroke="#9a99ad" stroke-width="1.2"/>
+<text x="750" y="231" font-family="monospace" font-size="12" fill="#111">heap va=0x2000</text>
+<rect x="740" y="246" width="224" height="26" rx="6" fill="#fff0e6" stroke="#9a99ad" stroke-width="1.2"/>
+<text x="750" y="263" font-family="monospace" font-size="12" fill="#111">stack va=0x4000</text>
+<rect x="980" y="84" width="224" height="54" rx="8" fill="#c79e84" stroke="#333" stroke-width="1.2"/>
+<text x="992" y="104" font-family="monospace" font-size="16" fill="#111">PID 13 sleepy</text>
+<text x="992" y="122" font-family="monospace" font-size="12" fill="#111">sleep sz=16384</text>
+<rect x="980" y="150" width="224" height="26" rx="6" fill="#eef4ff" stroke="#c79e84" stroke-width="1.2"/>
+<text x="990" y="167" font-family="monospace" font-size="12" fill="#111">code va=0x0</text>
+<rect x="980" y="182" width="224" height="26" rx="6" fill="#eef7ee" stroke="#c79e84" stroke-width="1.2"/>
+<text x="990" y="199" font-family="monospace" font-size="12" fill="#111">heap va=0x1000</text>
+<rect x="980" y="214" width="224" height="26" rx="6" fill="#fff0e6" stroke="#c79e84" stroke-width="1.2"/>
+<text x="990" y="231" font-family="monospace" font-size="12" fill="#111">stack va=0x3000</text>
+<rect x="1220" y="84" width="224" height="54" rx="8" fill="#cb857f" stroke="#333" stroke-width="1.2"/>
+<text x="1232" y="104" font-family="monospace" font-size="16" fill="#111">PID 6 vizwork</text>
+<text x="1232" y="122" font-family="monospace" font-size="12" fill="#111">sleep sz=16384</text>
+<rect x="1220" y="150" width="224" height="26" rx="6" fill="#eef4ff" stroke="#cb857f" stroke-width="1.2"/>
+<text x="1230" y="167" font-family="monospace" font-size="12" fill="#111">code va=0x0</text>
+<rect x="1220" y="182" width="224" height="26" rx="6" fill="#eef7ee" stroke="#cb857f" stroke-width="1.2"/>
+<text x="1230" y="199" font-family="monospace" font-size="12" fill="#111">heap va=0x1000</text>
+<rect x="1220" y="214" width="224" height="26" rx="6" fill="#fff0e6" stroke="#cb857f" stroke-width="1.2"/>
+<text x="1230" y="231" font-family="monospace" font-size="12" fill="#111">stack va=0x3000</text>
+</svg>
