@@ -11,12 +11,12 @@ This repository includes two small host-side visualizers that drive xv6 through 
 Show pages grouped by process:
 
 ```bash
-python3 tools/memviz.py --window
+python3 tools/procviz.py --window
 ```
 
 Useful flags:
 
-- `--output memviz.svg` writes the latest snapshot to an SVG file
+- `--output procviz.svg` writes the latest snapshot to an SVG file
 - `--runtime 12` controls how long the capture runs
 - `--poll 1` changes the in-guest snapshot interval in ticks
 - `--children 2` controls how many xv6 workload children are spawned
@@ -26,12 +26,12 @@ Useful flags:
 Show user pages sorted by physical address in a vertical line, wrapped into columns when needed:
 
 ```bash
-python3 tools/memline.py --window
+python3 tools/memviz.py --window
 ```
 
 Useful flags:
 
-- `--output memline.svg` writes the latest snapshot to an SVG file
+- `--output memviz.svg` writes the latest snapshot to an SVG file
 - `--runtime 12` controls how long the capture runs
 - `--poll 1` changes the in-guest snapshot interval in ticks
 - `--children 2` controls how many xv6 workload children are spawned

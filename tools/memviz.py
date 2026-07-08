@@ -3,148 +3,140 @@
 from __future__ import annotations
 
 import argparse
-import dataclasses
-import hashlib
 import os
-import re
+import queue
 import subprocess
 import sys
-import time
 import threading
-import queue
-from dataclasses import dataclass, field
-
+import time
+from dataclasses import dataclass
 from tkinter import Canvas, PhotoImage, Tk, TclError
+
 from PIL import Image, ImageDraw, ImageFont
+
+from procviz import (
+    BEGIN_RE,
+    END_RE,
+    PAGE_RE,
+    PROC_RE,
+    Snapshot,
+    classify_role,
+    color_for_pid,
+    escape,
+    helper_tint,
+    shade,
+    parse_snapshot,
+    wait_for_prompt,
+)
 
 
 PGSIZE = 4096
 
 
 @dataclass
-class Page:
-    pid: int
-    va: int
-    pa: int
-    flags: int
+class Cell:
+  pid: int
+  name: str
+  state: str
+  va: int
+  pa: int
+  role: str
+  color: str
 
 
-@dataclass
-class ProcSnap:
-    pid: int
-    state: str
-    name: str
-    sz: int
-    sp: int
-    pages: list[Page] = field(default_factory=list)
+def collect_cells(snapshot: Snapshot) -> list[Cell]:
+  cells: list[Cell] = []
+  for proc in snapshot.procs:
+    base = color_for_pid(proc.pid)
+    color = shade(base, helper_tint(proc.name))
+    for page in proc.pages:
+      cells.append(
+          Cell(
+              pid=proc.pid,
+              name=proc.name,
+              state=proc.state,
+              va=page.va,
+              pa=page.pa,
+              role=classify_role(page, proc),
+              color=color,
+          )
+      )
+  cells.sort(key=lambda c: (c.pa, c.pid, c.va))
+  return cells
 
 
-@dataclass
-class Snapshot:
-    seq: int
-    procs: list[ProcSnap]
+def column_groups(cells: list[Cell], per_col: int) -> list[list[Cell]]:
+  return [cells[i:i + per_col] for i in range(0, len(cells), per_col)]
 
 
-BEGIN_RE = re.compile(r"BEGIN VIZSNAP (\d+)")
-END_RE = re.compile(r"END VIZSNAP (\d+)")
-PROC_RE = re.compile(
-    r"PROC pid=(?P<pid>\d+) state=(?P<state>.+?) name=(?P<name>\S+) "
-    r"sz=(?P<sz>\d+) sp=(?P<sp>0x[0-9a-fA-F]+|\d+)"
-)
-PAGE_RE = re.compile(
-    r"PAGE pid=(?P<pid>\d+) va=(?P<va>0x[0-9a-fA-F]+|\d+) "
-    r"pa=(?P<pa>0x[0-9a-fA-F]+|\d+) flags=(?P<flags>[0-9a-fA-F]+)"
-)
+def column_dimensions(cells: list[Cell], per_col: int):
+  columns = column_groups(cells, per_col)
+  header_h = 20
+  row_h = 18
+  segment_gap = 12
+  col_widths = [72, 112, 96, 120, 120]
+  segment_width = sum(col_widths)
+  width = max(1080, 40 + len(columns) * segment_width + max(0, len(columns) - 1) * segment_gap)
+  height = 96 + header_h + max(1, per_col) * row_h + 36
+  return columns, width, height, col_widths, header_h, row_h, segment_gap
 
 
-def parse_int(value: str) -> int:
-  return int(value, 0)
-
-
-def classify_role(page: Page, proc: ProcSnap) -> str:
-  stack_va = (proc.sp // PGSIZE) * PGSIZE
-  if page.va == stack_va:
-    return "stack"
-  if page.flags & 0x8:
-    return "code"
-  if page.flags & 0x4:
-    return "heap"
-  return "other"
-
-
-def color_for_pid(pid: int) -> str:
-  digest = hashlib.sha1(str(pid).encode("ascii")).digest()
-  r = 110 + digest[0] % 100
-  g = 110 + digest[1] % 100
-  b = 110 + digest[2] % 100
-  return f"#{r:02x}{g:02x}{b:02x}"
-
-
-def helper_tint(name: str) -> float:
-  if name in {"sh", "memviz"}:
-    return 0.55
-  return 1.0
-
-
-def shade(color: str, factor: float) -> str:
-  color = color.lstrip("#")
-  r = int(color[0:2], 16)
-  g = int(color[2:4], 16)
-  b = int(color[4:6], 16)
-  r = min(255, max(0, int(r * factor + 255 * (1 - factor))))
-  g = min(255, max(0, int(g * factor + 255 * (1 - factor))))
-  b = min(255, max(0, int(b * factor + 255 * (1 - factor))))
-  return f"#{r:02x}{g:02x}{b:02x}"
-
-
-def escape(text: str) -> str:
-  return (
-      text.replace("&", "&amp;")
-      .replace("<", "&lt;")
-      .replace(">", "&gt;")
-      .replace('"', "&quot;")
-  )
+def role_fill(role: str) -> str:
+  return {
+      "code": "#eef4ff",
+      "heap": "#eef7ee",
+      "stack": "#fff0e6",
+      "other": "#f0f0f0",
+  }[role]
 
 
 def render_svg(snapshot: Snapshot, output_path: str) -> None:
-  procs, width, height, layout = snapshot_layout(snapshot)
+  cells = collect_cells(snapshot)
+  columns, width, height, col_widths, header_h, row_h, segment_gap = column_dimensions(cells, 12)
   left_margin = 20
-  top_margin = 84
 
   lines = [
       '<?xml version="1.0" encoding="UTF-8"?>',
       f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
       '<rect width="100%" height="100%" fill="#f7f7f3"/>',
-      f'<text x="{left_margin}" y="30" font-family="monospace" font-size="24" fill="#111">xv6 page ownership snapshot {snapshot.seq}</text>',
-      f'<text x="{left_margin}" y="54" font-family="monospace" font-size="14" fill="#444">user pages grouped by process; role inferred from xv6 address layout</text>',
+      f'<text x="{left_margin}" y="30" font-family="monospace" font-size="24" fill="#111">xv6 physical memory line snapshot {snapshot.seq}</text>',
+      f'<text x="{left_margin}" y="54" font-family="monospace" font-size="14" fill="#444">pages sorted by physical address; each page is a compact table row</text>',
       f'<rect x="{left_margin}" y="64" width="{width - 2 * left_margin}" height="12" rx="4" fill="#d9dde1"/>',
-      f'<text x="{left_margin}" y="62" font-family="monospace" font-size="12" fill="#555">kernel blanket</text>',
+      f'<text x="{left_margin}" y="62" font-family="monospace" font-size="12" fill="#555">kernel blanket / unreported memory</text>',
   ]
 
-  for proc, x in layout:
-    base = color_for_pid(proc.pid)
-    tint = helper_tint(proc.name)
-    header = shade(base, tint)
-    lines.extend([
-        f'<rect x="{x}" y="{top_margin}" width="224" height="54" rx="8" fill="{header}" stroke="#333" stroke-width="1.2"/>',
-        f'<text x="{x + 12}" y="{top_margin + 20}" font-family="monospace" font-size="16" fill="#111">PID {proc.pid} {escape(proc.name)}</text>',
-        f'<text x="{x + 12}" y="{top_margin + 38}" font-family="monospace" font-size="12" fill="#111">{escape(proc.state)} sz={proc.sz}</text>',
-    ])
-
-    pages = sorted(proc.pages, key=lambda p: (classify_role(p, proc), p.va))
-    for row, page in enumerate(pages):
-      y = top_margin + 54 + 12 + row * (26 + 6)
-      role = classify_role(page, proc)
-      role_fill = {
-          "code": "#eef4ff",
-          "heap": "#eef7ee",
-          "stack": "#fff0e6",
-          "other": "#f0f0f0",
-      }[role]
+  y0 = 96
+  x0 = left_margin
+  headers = ["PID", "Name", "Role", "VA", "PA"]
+  segment_width = sum(col_widths)
+  for seg_idx, segment in enumerate(columns):
+    seg_x = x0 + seg_idx * (segment_width + segment_gap)
+    x = seg_x
+    for title, w in zip(headers, col_widths):
       lines.extend([
-          f'<rect x="{x}" y="{y}" width="224" height="26" rx="6" fill="{role_fill}" stroke="{base}" stroke-width="1.2"/>',
-          f'<text x="{x + 10}" y="{y + 17}" font-family="monospace" font-size="12" fill="#111">{role} va={page.va:#x}</text>',
+          f'<rect x="{x}" y="{y0}" width="{w}" height="{header_h}" fill="#e6e6de" stroke="#bcbcb2" stroke-width="1"/>',
+          f'<text x="{x + 8}" y="{y0 + 14}" font-family="monospace" font-size="11" fill="#222">{title}</text>',
       ])
+      x += w
+
+    for row_idx, cell in enumerate(segment):
+      y = y0 + header_h + row_idx * row_h
+      values = [
+          str(cell.pid),
+          cell.name,
+          cell.role,
+          f"{cell.va:#x}",
+          f"{cell.pa:#x}",
+      ]
+      lines.append(f'<rect x="{seg_x}" y="{y}" width="{segment_width}" height="{row_h}" fill="{role_fill(cell.role)}" stroke="#c8c8c0" stroke-width="1"/>')
+      x = seg_x
+      for w in col_widths[:-1]:
+        x += w
+        lines.append(f'<line x1="{x}" y1="{y}" x2="{x}" y2="{y + row_h}" stroke="#d6d6cf" stroke-width="1"/>')
+      x = seg_x
+      for value, w in zip(values, col_widths):
+        lines.append(f'<text x="{x + 8}" y="{y + 13}" font-family="monospace" font-size="10" fill="#111">{escape(value)}</text>')
+        x += w
 
   lines.append("</svg>")
 
@@ -152,127 +144,60 @@ def render_svg(snapshot: Snapshot, output_path: str) -> None:
     f.write("\n".join(lines))
 
 
-def snapshot_layout(snapshot: Snapshot):
-  procs = sorted(snapshot.procs, key=lambda p: (p.name, p.pid))
-  col_w = 240
-  header_h = 54
-  row_h = 26
-  page_gap = 6
-  top_margin = 84
-  left_margin = 20
-  width = max(760, left_margin * 2 + max(1, len(procs)) * col_w)
-  max_pages = max((len(p.pages) for p in procs), default=0)
-  height = top_margin + header_h + max_pages * (row_h + page_gap) + 80
-  layout = [(proc, left_margin + idx * col_w) for idx, proc in enumerate(procs)]
-  return procs, width, height, layout
-
-
 def render_png(snapshot: Snapshot, output_path: str):
-  procs, width, height, layout = snapshot_layout(snapshot)
+  cells = collect_cells(snapshot)
+  columns, width, height, col_widths, header_h, row_h, segment_gap = column_dimensions(cells, 12)
   img = Image.new("RGB", (width, height), "#f7f7f3")
   draw = ImageDraw.Draw(img)
   font_title = ImageFont.load_default()
   font_body = ImageFont.load_default()
   left_margin = 20
-  top_margin = 84
 
-  draw.text((left_margin, 18), f"xv6 page ownership snapshot {snapshot.seq}", fill="#111", font=font_title)
-  draw.text((left_margin, 42), "user pages grouped by process; role inferred from xv6 address layout", fill="#444", font=font_body)
+  draw.text((left_margin, 18), f"xv6 physical memory line snapshot {snapshot.seq}", fill="#111", font=font_title)
+  draw.text((left_margin, 42), "pages sorted by physical address; each page is a compact table row", fill="#444", font=font_body)
   draw.rounded_rectangle((left_margin, 64, width - left_margin, 76), radius=4, fill="#d9dde1")
-  draw.text((left_margin, 58), "kernel blanket", fill="#555", font=font_body)
+  draw.text((left_margin, 58), "kernel blanket / unreported memory", fill="#555", font=font_body)
 
-  for proc, x in layout:
-    base = color_for_pid(proc.pid)
-    tint = helper_tint(proc.name)
-    header = shade(base, tint)
-    draw.rounded_rectangle((x, top_margin, x + 224, top_margin + 54), radius=8, fill=header, outline="#333", width=1)
-    draw.text((x + 12, top_margin + 8), f"PID {proc.pid} {proc.name}", fill="#111", font=font_body)
-    draw.text((x + 12, top_margin + 28), f"{proc.state} sz={proc.sz}", fill="#111", font=font_body)
+  y0 = 96
+  x0 = left_margin
+  headers = ["PID", "Name", "Role", "VA", "PA"]
+  segment_width = sum(col_widths)
+  for seg_idx, segment in enumerate(columns):
+    seg_x = x0 + seg_idx * (segment_width + segment_gap)
+    x = seg_x
+    for title, w in zip(headers, col_widths):
+      draw.rectangle((x, y0, x + w, y0 + header_h), fill="#e6e6de", outline="#bcbcb2", width=1)
+      draw.text((x + 8, y0 + 5), title, fill="#222", font=font_body)
+      x += w
 
-    pages = sorted(proc.pages, key=lambda p: (classify_role(p, proc), p.va))
-    for row, page in enumerate(pages):
-      y = top_margin + 54 + 12 + row * (26 + 6)
-      role = classify_role(page, proc)
-      role_fill = {
-          "code": "#eef4ff",
-          "heap": "#eef7ee",
-          "stack": "#fff0e6",
-          "other": "#f0f0f0",
-      }[role]
-      draw.rounded_rectangle((x, y, x + 224, y + 26), radius=6, fill=role_fill, outline=base, width=1)
-      draw.text((x + 10, y + 7), f"{role} va={page.va:#x}", fill="#111", font=font_body)
+    for row_idx, cell in enumerate(segment):
+      y = y0 + header_h + row_idx * row_h
+      values = [
+          str(cell.pid),
+          cell.name,
+          cell.role,
+          f"{cell.va:#x}",
+          f"{cell.pa:#x}",
+      ]
+      draw.rectangle((seg_x, y, seg_x + segment_width, y + row_h), fill=role_fill(cell.role), outline="#c8c8c0", width=1)
+      x = seg_x
+      for w in col_widths[:-1]:
+        x += w
+        draw.line((x, y, x, y + row_h), fill="#d6d6cf", width=1)
+      x = seg_x
+      for value, w in zip(values, col_widths):
+        draw.text((x + 8, y + 3), value, fill="#111", font=font_body)
+        x += w
 
   img.save(output_path)
   return img
 
 
-def parse_snapshot(stream_lines: list[str]) -> Snapshot | None:
-  current_seq = None
-  procs: list[ProcSnap] = []
-  by_pid: dict[int, ProcSnap] = {}
-
-  for raw in stream_lines:
-    line = raw.strip()
-    if not line:
-      continue
-    m = BEGIN_RE.search(line)
-    if m:
-      current_seq = int(m.group(1))
-      procs = []
-      by_pid = {}
-      continue
-    m = PROC_RE.search(line)
-    if m:
-      proc = ProcSnap(
-          pid=int(m.group("pid")),
-          state=m.group("state"),
-          name=m.group("name"),
-          sz=int(m.group("sz")),
-          sp=parse_int(m.group("sp")),
-      )
-      procs.append(proc)
-      by_pid[proc.pid] = proc
-      continue
-    m = PAGE_RE.search(line)
-    if m:
-      pid = int(m.group("pid"))
-      proc = by_pid.get(pid)
-      if proc is None:
-        continue
-      proc.pages.append(
-          Page(
-              pid=pid,
-              va=parse_int(m.group("va")),
-              pa=parse_int(m.group("pa")),
-              flags=int(m.group("flags"), 16),
-          )
-      )
-      continue
-    m = END_RE.search(line)
-    if m and current_seq is not None:
-      return Snapshot(seq=current_seq, procs=procs)
-
-  return None
-
-
-def wait_for_prompt(proc: subprocess.Popen, timeout: float = 10.0) -> None:
-  deadline = time.time() + timeout
-  buf = ""
-  while time.time() < deadline:
-    chunk = proc.stdout.readline()
-    if not chunk:
-      continue
-    buf += chunk
-    if "$ " in buf or "init: starting sh" in buf:
-      return
-  raise RuntimeError("qemu shell did not become ready")
-
-
 def main() -> int:
-  parser = argparse.ArgumentParser(description="Render a live xv6 memory snapshot")
+  parser = argparse.ArgumentParser(description="Render xv6 physical memory as a live table")
   parser.add_argument("--output", default="memviz.svg", help="output SVG path")
   parser.add_argument("--runtime", type=int, default=12, help="seconds to collect snapshots")
-  parser.add_argument("--poll", type=int, default=10, help="memviz pause interval in ticks")
+  parser.add_argument("--poll", type=int, default=10, help="snapshot interval in ticks")
   parser.add_argument("--children", type=int, default=2, help="number of vizwork children")
   parser.add_argument("--window", action="store_true", help="show a live desktop window")
   args = parser.parse_args()
@@ -291,8 +216,8 @@ def main() -> int:
 
   try:
     png_output = os.path.splitext(args.output)[0] + ".png"
-    window_w = 1480
-    window_h = 420
+    window_w = 1600
+    window_h = 560
     wait_for_prompt(proc)
     proc.stdin.write(f"memviz {args.poll} &\n")
     proc.stdin.write(f"vizwork {args.children} &\n")
@@ -318,7 +243,6 @@ def main() -> int:
     thread.start()
 
     latest: Snapshot | None = None
-    img = None
 
     if args.window:
       try:
@@ -328,7 +252,7 @@ def main() -> int:
         sys.stderr.flush()
         args.window = False
       else:
-        root.title("xv6 page visualization")
+        root.title("xv6 physical memory line")
         root.geometry(f"{window_w}x{window_h}")
         root.resizable(False, False)
         canvas = Canvas(root, width=window_w, height=window_h, highlightthickness=0, bg="#f7f7f3")
@@ -337,7 +261,7 @@ def main() -> int:
         photo = None
 
         def pump():
-          nonlocal latest, img, image_id, photo
+          nonlocal latest, image_id, photo
           drained = False
           while True:
             try:
