@@ -26,6 +26,30 @@ extern char trampoline[]; // trampoline.S
 // must be acquired before any p->lock.
 struct spinlock wait_lock;
 
+#define SCHTRACE_MAX 4096
+
+enum schedtrace_kind {
+  SCHTRACE_IN = 1,
+  SCHTRACE_OUT = 2,
+};
+
+struct schedtrace_event {
+  uint64 seq;
+  uint64 time;
+  int cpu;
+  int pid;
+  int kind;
+  int state;
+  char name[16];
+};
+
+struct {
+  struct spinlock lock;
+  uint64 next_seq;
+  uint64 tail_seq;
+  struct schedtrace_event ev[SCHTRACE_MAX];
+} schedtracebuf;
+
 extern pte_t *walk(pagetable_t, uint64, int);
 
 static char *
@@ -45,6 +69,46 @@ procstate_name(enum procstate state)
   if (state >= 0 && state < NELEM(states) && states[state])
     return states[state];
   return "???";
+}
+
+static char *
+schedtrace_kind_name(int kind)
+{
+  switch (kind) {
+  case SCHTRACE_IN:
+    return "in";
+  case SCHTRACE_OUT:
+    return "out";
+  default:
+    return "???";
+  }
+}
+
+static void
+schedtrace_emit(int kind, struct proc *p)
+{
+  struct schedtrace_event *e;
+  uint64 seq;
+
+  acquire(&schedtracebuf.lock);
+  seq = schedtracebuf.next_seq;
+  e = &schedtracebuf.ev[seq % SCHTRACE_MAX];
+  e->seq = seq;
+  e->time = r_time();
+  e->cpu = cpuid();
+  e->pid = p ? p->pid : -1;
+  e->kind = kind;
+  e->state = p ? p->state : UNUSED;
+  if (p) {
+    safestrcpy(e->name, p->name, sizeof(e->name));
+  } else {
+    e->name[0] = 0;
+  }
+  schedtracebuf.next_seq = seq + 1;
+  if (schedtracebuf.next_seq - schedtracebuf.tail_seq > SCHTRACE_MAX) {
+    schedtracebuf.tail_seq = schedtracebuf.next_seq - SCHTRACE_MAX;
+  }
+  release(&schedtracebuf.lock);
 }
 
 // Allocate a page for each process's kernel stack.
@@ -72,6 +136,7 @@ procinit(void)
 
   initlock(&pid_lock, "nextpid");
   initlock(&wait_lock, "wait_lock");
+  initlock(&schedtracebuf.lock, "schedtrace");
   for (p = proc; p < &proc[NPROC]; p++) {
     initlock(&p->lock, "proc");
     p->state = UNUSED;
@@ -467,10 +532,12 @@ scheduler(void)
         // before jumping back to us.
         p->state = RUNNING;
         c->proc = p;
+        schedtrace_emit(SCHTRACE_IN, p);
         swtch(&c->context, &p->context);
 
         // Process is done running for now.
         // It should have changed its p->state before coming back.
+        schedtrace_emit(SCHTRACE_OUT, p);
         c->proc = 0;
         found = 1;
       }
@@ -728,5 +795,29 @@ sys_vizsnap(void)
     release(&p->lock);
   }
   printk("END VIZSNAP %lu\n", seq);
+  return 0;
+}
+
+uint64
+sys_schedtrace(void)
+{
+  uint64 seq, start, end;
+  struct schedtrace_event *e;
+
+  acquire(&schedtracebuf.lock);
+  start = schedtracebuf.tail_seq;
+  end = schedtracebuf.next_seq;
+  printk("BEGIN SCHEDTRACE %lu\n", end);
+  for (seq = start; seq < end; seq++) {
+    e = &schedtracebuf.ev[seq % SCHTRACE_MAX];
+    if (e->seq != seq)
+      continue;
+    printk("EVENT seq=%lu time=%lu cpu=%d pid=%d kind=%s state=%s name=%s\n",
+           e->seq, e->time, e->cpu, e->pid, schedtrace_kind_name(e->kind),
+           procstate_name(e->state), e->name);
+  }
+  schedtracebuf.tail_seq = end;
+  printk("END SCHEDTRACE %lu\n", end);
+  release(&schedtracebuf.lock);
   return 0;
 }

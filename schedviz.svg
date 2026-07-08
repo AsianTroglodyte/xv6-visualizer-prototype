@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="446" viewBox="0 0 1600 446">
+<rect width="100%" height="100%" fill="#f7f7f3"/>
+<text x="20" y="30" font-family="monospace" font-size="24" fill="#111">xv6 scheduler switch timeline</text>
+<text x="20" y="54" font-family="monospace" font-size="14" fill="#444">recent context switches only; each bar spans a process run interval</text>
+<text x="20" y="74" font-family="monospace" font-size="12" fill="#555">window size: last 120 event(s), time span 33M</text>
+<rect x="20" y="84" width="1560" height="10" rx="4" fill="#d9dde1"/>
+<text x="20" y="82" font-family="monospace" font-size="12" fill="#555">window start 28M end 61M</text>
+<line x1="260" y1="92" x2="260" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="262" y="88" font-family="monospace" font-size="10" fill="#555">0</text>
+<line x1="392" y1="92" x2="392" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="394" y="88" font-family="monospace" font-size="10" fill="#555">3M</text>
+<line x1="524" y1="92" x2="524" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="526" y="88" font-family="monospace" font-size="10" fill="#555">6M</text>
+<line x1="656" y1="92" x2="656" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="658" y="88" font-family="monospace" font-size="10" fill="#555">9M</text>
+<line x1="788" y1="92" x2="788" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="790" y="88" font-family="monospace" font-size="10" fill="#555">13M</text>
+<line x1="920" y1="92" x2="920" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="922" y="88" font-family="monospace" font-size="10" fill="#555">16M</text>
+<line x1="1052" y1="92" x2="1052" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="1054" y="88" font-family="monospace" font-size="10" fill="#555">19M</text>
+<line x1="1184" y1="92" x2="1184" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="1186" y="88" font-family="monospace" font-size="10" fill="#555">23M</text>
+<line x1="1316" y1="92" x2="1316" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="1318" y="88" font-family="monospace" font-size="10" fill="#555">26M</text>
+<line x1="1448" y1="92" x2="1448" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="1450" y="88" font-family="monospace" font-size="10" fill="#555">29M</text>
+<line x1="1580" y1="92" x2="1580" y2="418" stroke="#c9c9bf" stroke-width="1"/>
+<text x="1582" y="88" font-family="monospace" font-size="10" fill="#555">33M</text>
+<rect x="20" y="100" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="108" width="10" height="10" rx="2" fill="#85c475" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="116" font-family="monospace" font-size="12" fill="#111">PID 11 schedwork</text>
+<text x="44" y="129" font-family="monospace" font-size="10" fill="#555">5972132 time units active</text>
+<rect x="260" y="104" width="3" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="420" y="104" width="40" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="580" y="104" width="40" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="699" y="104" width="40" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="860" y="104" width="40" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1060" y="104" width="40" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1300" y="104" width="3" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1421" y="104" width="39" height="22" rx="6" fill="#85c475" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="130" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="138" width="10" height="10" rx="2" fill="#9a99ad" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="146" font-family="monospace" font-size="12" fill="#111">PID 7 schedwork</text>
+<text x="44" y="159" font-family="monospace" font-size="10" fill="#555">8009741 time units active</text>
+<rect x="260" y="134" width="39" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="460" y="134" width="40" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="620" y="134" width="40" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="780" y="134" width="39" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="940" y="134" width="40" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1180" y="134" width="40" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1380" y="134" width="40" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1540" y="134" width="39" height="22" rx="6" fill="#9a99ad" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="160" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="168" width="10" height="10" rx="2" fill="#cb857f" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="176" font-family="monospace" font-size="12" fill="#111">PID 6 schedwork</text>
+<text x="44" y="189" font-family="monospace" font-size="10" fill="#555">5460 time units active</text>
+<rect x="301" y="164" width="3" height="22" rx="6" fill="#cb857f" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="501" y="164" width="3" height="22" rx="6" fill="#cb857f" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="661" y="164" width="3" height="22" rx="6" fill="#cb857f" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="821" y="164" width="3" height="22" rx="6" fill="#cb857f" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="981" y="164" width="3" height="22" rx="6" fill="#cb857f" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1221" y="164" width="3" height="22" rx="6" fill="#cb857f" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1421" y="164" width="3" height="22" rx="6" fill="#cb857f" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="190" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="198" width="10" height="10" rx="2" fill="#a4cbc5" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="206" font-family="monospace" font-size="12" fill="#111">PID 8 schedwork</text>
+<text x="44" y="219" font-family="monospace" font-size="10" fill="#555">1944791 time units active</text>
+<rect x="301" y="194" width="39" height="22" rx="6" fill="#a4cbc5" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="501" y="194" width="39" height="22" rx="6" fill="#a4cbc5" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="661" y="194" width="3" height="22" rx="6" fill="#a4cbc5" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="220" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="228" width="10" height="10" rx="2" fill="#788486" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="236" font-family="monospace" font-size="12" fill="#111">PID 9 schedwork</text>
+<text x="44" y="249" font-family="monospace" font-size="10" fill="#555">3900366 time units active</text>
+<rect x="340" y="224" width="40" height="22" rx="6" fill="#788486" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="540" y="224" width="3" height="22" rx="6" fill="#788486" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="661" y="224" width="3" height="22" rx="6" fill="#788486" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="821" y="224" width="39" height="22" rx="6" fill="#788486" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="981" y="224" width="39" height="22" rx="6" fill="#788486" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1221" y="224" width="39" height="22" rx="6" fill="#788486" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1421" y="224" width="3" height="22" rx="6" fill="#788486" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="250" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="258" width="10" height="10" rx="2" fill="#bb7b82" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="266" font-family="monospace" font-size="12" fill="#111">PID 10 schedwork</text>
+<text x="44" y="279" font-family="monospace" font-size="10" fill="#555">4973296 time units active</text>
+<rect x="380" y="254" width="40" height="22" rx="6" fill="#bb7b82" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="540" y="254" width="40" height="22" rx="6" fill="#bb7b82" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="661" y="254" width="38" height="22" rx="6" fill="#bb7b82" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="860" y="254" width="3" height="22" rx="6" fill="#bb7b82" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1020" y="254" width="40" height="22" rx="6" fill="#bb7b82" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1260" y="254" width="40" height="22" rx="6" fill="#bb7b82" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1421" y="254" width="3" height="22" rx="6" fill="#bb7b82" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="280" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="288" width="10" height="10" rx="2" fill="#85c06e" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="296" font-family="monospace" font-size="12" fill="#111">PID 12 schedwork</text>
+<text x="44" y="309" font-family="monospace" font-size="10" fill="#555">4009993 time units active</text>
+<rect x="620" y="284" width="3" height="22" rx="6" fill="#85c06e" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="739" y="284" width="40" height="22" rx="6" fill="#85c06e" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="900" y="284" width="40" height="22" rx="6" fill="#85c06e" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1100" y="284" width="40" height="22" rx="6" fill="#85c06e" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1300" y="284" width="40" height="22" rx="6" fill="#85c06e" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1460" y="284" width="3" height="22" rx="6" fill="#85c06e" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="310" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="318" width="10" height="10" rx="2" fill="#c79e84" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="326" font-family="monospace" font-size="12" fill="#111">PID 13 schedwork</text>
+<text x="44" y="339" font-family="monospace" font-size="10" fill="#555">3006740 time units active</text>
+<rect x="940" y="314" width="3" height="22" rx="6" fill="#c79e84" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1140" y="314" width="40" height="22" rx="6" fill="#c79e84" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1340" y="314" width="40" height="22" rx="6" fill="#c79e84" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1460" y="314" width="40" height="22" rx="6" fill="#c79e84" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="20" y="340" width="228" height="26" rx="8" fill="#ffffff" stroke="#d9d9d0" stroke-width="1"/>
+<rect x="28" y="348" width="10" height="10" rx="2" fill="#a0a387" stroke="#333" stroke-width="0.6"/>
+<text x="44" y="356" font-family="monospace" font-size="12" fill="#111">PID 14 schedwork</text>
+<text x="44" y="369" font-family="monospace" font-size="10" fill="#555">1003364 time units active</text>
+<rect x="1380" y="344" width="3" height="22" rx="6" fill="#a0a387" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<rect x="1500" y="344" width="40" height="22" rx="6" fill="#a0a387" fill-opacity="0.88" stroke="#333" stroke-width="0.8"/>
+<text x="20" y="438" font-family="monospace" font-size="11" fill="#555">colors are keyed by pid; bars show the actual intervals between switch-in and switch-out</text>
+</svg>

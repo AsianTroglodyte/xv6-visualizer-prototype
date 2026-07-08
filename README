@@ -36,10 +36,31 @@ Useful flags:
 - `--poll 1` changes the in-guest snapshot interval in ticks
 - `--children 2` controls how many xv6 workload children are spawned
 
+## Scheduler timeline
+
+Show recent context switches over time as a Gantt-style chart:
+
+```bash
+python3 tools/schedviz.py --window
+```
+
+Useful flags:
+
+- `--output schedviz.svg` writes the latest timeline to an SVG file
+- `--runtime 6` controls how long the capture runs
+- `--poll 1` changes how often the in-guest tracer dumps events
+- `--events 120` controls how much of the recent trace window gets rendered
+- `--waves 8` controls how much churn the workload creates
+- `--burst 1` controls how many children spawn per wave
+- `--burn 18` controls how long each worker burns CPU
+- `--gap 6` controls the pause between waves
+- `--cpus 1` keeps the demo on a single CPU so the timeline is easier to read
+
 ## Notes
 
 - Both tools launch QEMU for you.
 - If no display is available, `--window` falls back to file output.
-- The guest workload is `user/vizwork.c`, which drives real xv6 processes like `sh`, `echo`, `ls`, `cat`, `wc`, and `sleepy`.
+- The scheduler demo uses `user/schedtrace.c` to emit switch events and `user/schedwork.c` to create CPU bursts and process churn.
+- The memory and process views still use `user/vizwork.c`, which drives real xv6 processes like `sh`, `echo`, `ls`, `cat`, `wc`, and `sleepy`.
 
  

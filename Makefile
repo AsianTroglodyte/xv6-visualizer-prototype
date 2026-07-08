@@ -137,6 +137,8 @@ UPROGS=\
 	$U/_mkdir\
 	$U/_memviz\
 	$U/_rm\
+	$U/_schedwork\
+	$U/_schedtrace\
 	$U/_sleepy\
 	$U/_vizwork\
 	$U/_sh\
