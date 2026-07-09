@@ -1,18 +1,30 @@
-# Browser terminal scaffold
+# xv6 Server Terminal
 
-This directory is the first step toward running xv6 in the browser.
+This browser terminal starts one server-side QEMU/xv6 process per WebSocket
+connection. It uses the already-built `kernel/kernel` and disk image. The
+server looks for `fs.img` first, then falls back to `build/web/assets/fs.img`.
 
-Current shape:
+Install the only Python dependency:
 
-- `QEMU` is the eventual WebAssembly target.
-- `kernel/kernel` and `fs.img` are host-built assets staged into `build/web/assets/`.
-- `index.html`, `styles.css`, and `app.js` provide the local terminal UI.
+```bash
+python3 -m pip install websockets
+```
 
-Planned flow:
+Run the server:
 
-1. Build xv6 and `fs.img` on the host.
-2. Build QEMU with Emscripten into `qemu.js` and `qemu.wasm`.
-3. Load the wasm runtime plus the xv6 assets into the browser.
-4. Bridge terminal input/output between the browser UI and QEMU stdio.
+```bash
+python3 web/server.py
+```
 
-This scaffold currently runs as a stub terminal and is meant to be wired to the wasm backend later.
+Open:
+
+```text
+http://127.0.0.1:8000/
+```
+
+The `ws://127.0.0.1:8765/terminal` endpoint is for the page's JavaScript
+client. Opening it directly in a browser tab sends a normal HTTP request to the
+WebSocket port and can produce an `InvalidUpgrade` message in the server log.
+
+Each browser tab gets its own QEMU process. Closing the tab or pressing
+Disconnect terminates that process.

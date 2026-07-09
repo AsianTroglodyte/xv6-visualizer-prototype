@@ -1,78 +1,97 @@
-const terminal = document.getElementById("terminal");
-const form = document.getElementById("command-form");
-const input = document.getElementById("command-input");
-const backendBadge = document.getElementById("backend-badge");
-const assetBadge = document.getElementById("asset-badge");
+const statusEl = document.getElementById("status");
+const terminalEl = document.getElementById("terminal");
+const connectButton = document.getElementById("connect");
+const disconnectButton = document.getElementById("disconnect");
+const interruptButton = document.getElementById("interrupt");
+const form = document.getElementById("input-form");
+const input = document.getElementById("input");
+const sendButton = document.getElementById("send");
 
-const state = {
-  backend: "stub",
-  prompt: "$",
-};
+let socket = null;
 
-function appendLine(text, cls = "") {
-  const div = document.createElement("div");
-  div.className = `line ${cls}`.trim();
-  div.textContent = text;
-  terminal.appendChild(div);
-  terminal.scrollTop = terminal.scrollHeight;
+function wsUrl() {
+  const host = window.location.hostname || "127.0.0.1";
+  const params = new URLSearchParams(window.location.search);
+  const port = params.get("ws_port") || "8765";
+  const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+  return `${protocol}//${host}:${port}/terminal`;
 }
 
-function appendPromptLine(text) {
-  appendLine(`${state.prompt} ${text}`, "accent");
+function append(text) {
+  terminalEl.textContent += text;
+  terminalEl.scrollTop = terminalEl.scrollHeight;
 }
 
-function setStatus() {
-  backendBadge.textContent = `backend: ${state.backend}`;
-  assetBadge.textContent = "assets: staged for wasm QEMU";
+function setConnected(connected) {
+  connectButton.disabled = connected;
+  disconnectButton.disabled = !connected;
+  interruptButton.disabled = !connected;
+  input.disabled = !connected;
+  sendButton.disabled = !connected;
+  if (connected) {
+    input.focus();
+  }
 }
 
-function bootMessage() {
-  appendLine("xv6 browser terminal scaffold", "accent");
-  appendLine("This page is ready for a future wasm-QEMU backend.");
-  appendLine("For now it behaves like a local terminal UI and records commands.");
-  appendLine("When the emulator backend is wired up, commands will be forwarded to stdin.");
-  appendLine("");
-  appendLine("Try typing a command below. The frontend will echo it back.");
-}
-
-function runStubCommand(command) {
-  const trimmed = command.trim();
-  if (!trimmed) {
+function connect() {
+  if (socket && socket.readyState !== WebSocket.CLOSED) {
     return;
   }
 
-  appendPromptLine(trimmed);
+  terminalEl.textContent = "";
+  statusEl.textContent = `Connecting to ${wsUrl()}`;
+  connectButton.disabled = true;
+  socket = new WebSocket(wsUrl());
 
-  if (trimmed === "help") {
-    appendLine("Available stub commands: help, clear, status");
-    return;
-  }
+  socket.addEventListener("open", () => {
+    statusEl.textContent = "Connected";
+    setConnected(true);
+  });
 
-  if (trimmed === "clear") {
-    terminal.innerHTML = "";
-    bootMessage();
-    return;
-  }
+  socket.addEventListener("message", (event) => {
+    append(String(event.data));
+  });
 
-  if (trimmed === "status") {
-    appendLine("backend: stub");
-    appendLine("next step: connect to wasm QEMU");
-    return;
-  }
+  socket.addEventListener("close", () => {
+    statusEl.textContent = "Disconnected";
+    setConnected(false);
+    socket = null;
+  });
 
-  appendLine(`echo: ${trimmed}`);
-  appendLine("This is a frontend-only placeholder until QEMU-in-wasm is attached.");
+  socket.addEventListener("error", () => {
+    append(`\n[browser] WebSocket error while connecting to ${wsUrl()}\n`);
+  });
 }
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  runStubCommand(input.value);
-  input.value = "";
+function send(text) {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(text);
+  }
+}
+
+connectButton.addEventListener("click", connect);
+
+disconnectButton.addEventListener("click", () => {
+  if (socket) {
+    socket.close();
+  }
+});
+
+interruptButton.addEventListener("click", () => {
+  send("\x03");
   input.focus();
 });
 
-terminal.addEventListener("click", () => input.focus());
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const text = input.value;
+  input.value = "";
+  append(`${text}\n`);
+  send(`${text}\n`);
+});
 
-setStatus();
-bootMessage();
-input.focus();
+terminalEl.addEventListener("click", () => input.focus());
+
+append("Starting a fresh xv6/QEMU instance.\n");
+setConnected(false);
+connect();
