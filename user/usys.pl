@@ -45,3 +45,5 @@ entry("uptime");
 entry("sync");
 entry("vizsnap");
 entry("schedtrace");
+entry("locktrace");
+entry("lockdemo");

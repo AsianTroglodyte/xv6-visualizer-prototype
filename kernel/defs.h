@@ -104,6 +104,11 @@ int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
 uint64          sys_schedtrace(void);
 
+// lockdemo.c
+void            locktraceinit(void);
+uint64          sys_locktrace(void);
+uint64          sys_lockdemo(void);
+
 // swtch.S
 void            swtch(struct context*, struct context*);
 

@@ -105,6 +105,8 @@ extern uint64 sys_close(void);
 extern uint64 sys_sync(void);
 extern uint64 sys_vizsnap(void);
 extern uint64 sys_schedtrace(void);
+extern uint64 sys_locktrace(void);
+extern uint64 sys_lockdemo(void);
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -134,6 +136,8 @@ static uint64 (*syscalls[])(void) = {
   [SYS_sync]    sys_sync,
   [SYS_vizsnap] sys_vizsnap,
   [SYS_schedtrace] sys_schedtrace,
+  [SYS_locktrace] sys_locktrace,
+  [SYS_lockdemo] sys_lockdemo,
   // clang-format on
 };
 

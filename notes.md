@@ -43,3 +43,10 @@ If we add xv6 hooks for visualization, the cleanest approach is to keep them gen
 
 That keeps the kernel clean while still letting an external tool observe process, memory, filesystem, and synchronization state.
 
+## Concurrency Prototype
+
+For the first concurrency proof of concept, the project uses a synthetic contended lock rather than tracing every lock in xv6.
+
+- one dedicated kernel lock is enough to show contention clearly
+- the visualizer can split each acquisition into waiting time and critical-section time
+- this keeps the xv6 changes isolated and avoids polluting the rest of the kernel with demo-specific code

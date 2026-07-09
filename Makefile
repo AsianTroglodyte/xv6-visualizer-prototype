@@ -18,6 +18,7 @@ OBJS = \
   $K/trap.o \
   $K/syscall.o \
   $K/sysproc.o \
+  $K/lockdemo.o \
   $K/bio.o \
   $K/fs.o \
   $K/log.o \
@@ -136,6 +137,8 @@ UPROGS=\
 	$U/_ls\
 	$U/_mkdir\
 	$U/_memviz\
+	$U/_locktrace\
+	$U/_lockwork\
 	$U/_rm\
 	$U/_schedwork\
 	$U/_schedtrace\

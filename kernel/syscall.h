@@ -23,3 +23,5 @@
 #define SYS_sync   22
 #define SYS_vizsnap 23
 #define SYS_schedtrace 24
+#define SYS_locktrace 25
+#define SYS_lockdemo 26

@@ -27,6 +27,8 @@ int uptime(void);
 int sync(void);
 int vizsnap(void);
 int schedtrace(void);
+int locktrace(void);
+int lockdemo(int);
 
 // ulib.c
 int stat(const char *, struct stat *);

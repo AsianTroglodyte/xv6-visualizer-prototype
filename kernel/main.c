@@ -27,6 +27,7 @@ main()
     binit();            // buffer cache
     iinit();            // inode table
     fileinit();         // file table
+    locktraceinit();    // synthetic lock contention tracer
     virtio_disk_init(); // emulated hard disk
     userinit();         // first user process
     __atomic_thread_fence(__ATOMIC_SEQ_CST);

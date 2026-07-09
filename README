@@ -56,11 +56,32 @@ Useful flags:
 - `--gap 6` controls the pause between waves
 - `--cpus 1` keeps the demo on a single CPU so the timeline is easier to read
 
+## Lock contention timeline
+
+Show a single synthetic xv6 lock with waiting and holding intervals:
+
+```bash
+python3 tools/lockviz.py --window
+```
+
+Useful flags:
+
+- `--output lockviz.svg` writes the latest timeline to an SVG file
+- `--runtime 6` controls how long the capture runs
+- `--poll 1` changes how often the in-guest tracer dumps events
+- `--events 120` controls how much of the recent trace window gets rendered
+- `--waves 5` controls how many waves of workers the workload creates
+- `--burst 3` controls how many children spawn per wave
+- `--hold 120000` controls how long each critical section stays locked
+- `--gap 40000` controls the pause between lock attempts
+- `--cpus 2` uses two QEMU CPUs so contention is easier to see
+
 ## Notes
 
 - Both tools launch QEMU for you.
 - If no display is available, `--window` falls back to file output.
 - The scheduler demo uses `user/schedtrace.c` to emit switch events and `user/schedwork.c` to create CPU bursts and process churn.
+- The lock demo uses `user/locktrace.c` to emit lock events and `user/lockwork.c` to create contention around a synthetic kernel lock.
 - The memory and process views still use `user/vizwork.c`, which drives real xv6 processes like `sh`, `echo`, `ls`, `cat`, `wc`, and `sleepy`.
 
  
