@@ -10,3 +10,6 @@ _*
 /user/usys.S
 .gdbinit
 TAGS
+/build/
+/third_party/qemu/
+/third_party/emsdk/

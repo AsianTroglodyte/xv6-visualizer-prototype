@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>xv6 browser terminal</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="chrome">
+      <div class="dots" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div>
+        <h1>xv6 browser terminal</h1>
+        <p>QEMU-in-wasm target, first step: terminal transport only</p>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="status">
+        <span class="badge" id="backend-badge">backend: stub</span>
+        <span class="badge muted" id="asset-badge">assets: not loaded</span>
+      </div>
+
+      <div id="terminal" class="terminal" aria-label="browser terminal output" tabindex="0"></div>
+
+      <form id="command-form" class="command-bar" autocomplete="off">
+        <label class="prompt" for="command-input">$</label>
+        <input id="command-input" name="command" type="text" spellcheck="false" placeholder="type a command for the future xv6 shell" />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -56,6 +56,13 @@ endif
 QEMU = qemu-system-riscv64
 MIN_QEMU_VERSION = 7.2
 
+THIRD_PARTY = third_party
+WEB_DIR = web
+WEB_BUILD = build/web
+WEB_ASSETS = $(WEB_BUILD)/assets
+QEMU_SRC = $(THIRD_PARTY)/qemu
+EMSDK = $(THIRD_PARTY)/emsdk
+
 CC = $(TOOLPREFIX)gcc
 LD = $(TOOLPREFIX)ld
 OBJCOPY = $(TOOLPREFIX)objcopy
@@ -206,3 +213,21 @@ check-qemu-version:
 .PHONY: fmt
 fmt:
 	clang-format -i $(wildcard kernel/*.[ch] user/*.[ch] mkfs/*.c)
+
+.PHONY: web-assets
+web-assets: fs.img $K/kernel
+	mkdir -p $(WEB_ASSETS)
+	cp fs.img $(WEB_ASSETS)/fs.img
+	cp $K/kernel $(WEB_ASSETS)/kernel
+
+.PHONY: web-scaffold
+web-scaffold:
+	mkdir -p $(WEB_BUILD)
+	cp -r $(WEB_DIR)/* $(WEB_BUILD)/
+
+.PHONY: web-info
+web-info:
+	@echo "web frontend scaffold: $(WEB_DIR)"
+	@echo "web asset staging: $(WEB_BUILD)/assets"
+	@echo "qemu source checkout: $(QEMU_SRC)"
+	@echo "emsdk checkout: $(EMSDK)"

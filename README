@@ -84,4 +84,29 @@ Useful flags:
 - The lock demo uses `user/locktrace.c` to emit lock events and `user/lockwork.c` to create contention around a synthetic kernel lock.
 - The memory and process views still use `user/vizwork.c`, which drives real xv6 processes like `sh`, `echo`, `ls`, `cat`, `wc`, and `sleepy`.
 
+## Browser terminal path
+
+This repository is also being prepared for a browser-local xv6 demo where QEMU itself is compiled to WebAssembly with Emscripten.
+
+The intended split is:
+
+- `third_party/qemu/` holds the QEMU source checkout used for the wasm build
+- `third_party/emsdk/` holds the Emscripten SDK checkout
+- `build/web/assets/` stages host-built xv6 artifacts
+- `web/` contains the browser terminal UI
+
+For the first browser milestone, QEMU is the wasm program, while `kernel/kernel` and `fs.img` remain host-built assets that the browser loads at runtime.
+
+The current scaffold does not yet include the wasm build itself, but you can inspect the browser UI with:
+
+```bash
+make web-scaffold
+```
+
+and the asset staging step with:
+
+```bash
+make web-assets
+```
+
  
