@@ -86,27 +86,42 @@ Useful flags:
 
 ## Browser terminal path
 
-This repository is also being prepared for a browser-local xv6 demo where QEMU itself is compiled to WebAssembly with Emscripten.
+This repository includes two browser-facing xv6 demos. The default page runs
+native QEMU on the server and gives the browser a terminal over WebSocket. The
+JSLinux page hands staged xv6 assets to upstream JSLinux/TinyEMU.
 
-The intended split is:
-
-- `third_party/qemu/` holds the QEMU source checkout used for the wasm build
-- `third_party/emsdk/` holds the Emscripten SDK checkout
-- `build/web/assets/` stages host-built xv6 artifacts
-- `web/` contains the browser terminal UI
-
-For the first browser milestone, QEMU is the wasm program, while `kernel/kernel` and `fs.img` remain host-built assets that the browser loads at runtime.
-
-The current scaffold does not yet include the wasm build itself, but you can inspect the browser UI with:
+Run it with:
 
 ```bash
-make web-scaffold
+python3 web/server.py
 ```
 
-and the asset staging step with:
+Then open:
+
+```text
+http://127.0.0.1:8000/
+```
+
+The split is:
+
+- `web/server.py` serves the pages and starts one server-side QEMU process per
+  browser tab.
+- `web/` contains the browser terminal UI and the JSLinux handoff page.
+- `build/web/assets/` stages host-built xv6 artifacts for JSLinux to fetch.
+
+There is also a JSLinux/TinyEMU handoff page:
+
+```text
+http://127.0.0.1:8000/jslinux.html
+```
+
+That page gives upstream JSLinux a config URL pointing back to this server's
+`assets/kernel` and the TinyEMU HTTP block files generated from `assets/fs.img`.
+When the staged `fs.img` changes, refresh those block files with:
 
 ```bash
-make web-assets
+python3 web/stage_jslinux_disk.py
 ```
 
- 
+xv6-riscv is built for QEMU's `virt` machine, so if TinyEMU does not boot it
+directly, use the server-side QEMU terminal.

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>xv6 JSLinux handoff</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="chrome">
+      <div>
+        <h1>xv6 JSLinux handoff</h1>
+        <p>Serve xv6 assets here; run them through upstream JSLinux/TinyEMU</p>
+      </div>
+      <nav class="mode-links" aria-label="browser modes">
+        <a href="./jslinux.html" aria-current="page">JSLinux</a>
+        <a href="./">Server QEMU</a>
+      </nav>
+    </header>
+
+    <section class="handoff">
+      <div class="handoff-actions">
+        <a id="launch-link" href="#">Open in JSLinux</a>
+        <a class="secondary" href="./xv6-jslinux.cfg">Config</a>
+        <a class="secondary" href="./assets/kernel">Kernel</a>
+        <a class="secondary" href="./assets/fs/blk.txt">Disk</a>
+      </div>
+
+      <p id="launch-url"></p>
+      <p>
+        The config points JSLinux at <code>assets/kernel</code> and the
+        TinyEMU HTTP block manifest generated from <code>assets/fs.img</code>.
+        This server sends CORS headers so the upstream emulator can fetch those
+        files from this origin.
+      </p>
+      <p class="warn">
+        Compatibility note: xv6-riscv is built for QEMU's <code>virt</code>
+        machine. If TinyEMU/JSLinux does not boot it directly, use the server
+        QEMU terminal.
+      </p>
+
+      <ul class="asset-list">
+        <li><span>config</span><code id="config-url"></code></li>
+        <li><span>kernel</span><code id="kernel-url"></code></li>
+        <li><span>disk</span><code id="fs-url"></code></li>
+      </ul>
+    </section>
+  </main>
+
+  <script type="module" src="./jslinux.js"></script>
+</body>
+</html>

@@ -3,6 +3,7 @@ import argparse
 import asyncio
 import contextlib
 import os
+import posixpath
 import pty
 import signal
 import subprocess
@@ -10,12 +11,14 @@ import threading
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 import websockets
 
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB_ROOT = ROOT / "web"
+BUILD_WEB_ROOT = ROOT / "build" / "web"
 
 
 def asset_paths():
@@ -29,8 +32,31 @@ def asset_paths():
 
 
 class StaticHandler(SimpleHTTPRequestHandler):
+    extensions_map = {
+        **SimpleHTTPRequestHandler.extensions_map,
+        ".cfg": "text/plain",
+    }
+
+    def translate_path(self, path):
+        url_path = urlsplit(path).path
+        url_path = posixpath.normpath(unquote(url_path))
+        parts = [part for part in url_path.split("/") if part and part not in (".", "..")]
+
+        if parts and parts[0] == "assets":
+            candidate = BUILD_WEB_ROOT.joinpath(*parts)
+        else:
+            candidate = WEB_ROOT.joinpath(*parts)
+            if not candidate.exists():
+                build_candidate = BUILD_WEB_ROOT.joinpath(*parts)
+                if build_candidate.exists():
+                    candidate = build_candidate
+
+        return str(candidate)
+
     def end_headers(self):
         self.send_header("Cache-Control", "no-store")
+        self.send_header("Cross-Origin-Resource-Policy", "cross-origin")
+        self.send_header("Access-Control-Allow-Origin", "*")
         super().end_headers()
 
 
